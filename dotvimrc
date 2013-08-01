@@ -1,0 +1,124 @@
+" this is marian eichholz hand tuned vim initialization.
+" maintainer note: cp -a ~/.vim/*  ~/pm-git/config/puppet/modules/editors/files/dotvim/
+
+" plugin list {{{
+" ---------------
+" c (aka c-support)
+" cscope_maps (manual, needs cscope-feature of gvim)
+" taglist (:TlistToggle)
+" hardmode (:call hardmode())
+" rails
+" snippets-emu
+"
+" self built
+" ----------
+" ruby
+" }}}
+" setup infrastructure {{{
+lang C " external programs like compilers are called with standard locale
+
+" with Windows, we have a static super-vimrc which sources this file:
+if !exists("g:dotvim")
+	let g:dotvim = $HOME . "/.vim/" " just THE default value(s)
+endif
+
+" setup help system and include local tags
+set tags+=./tags;/ " recursively up
+exec ":helptags " . g:dotvim . "doc"
+
+let g:My_Leader = ","
+let mapleader = g:My_Leader
+
+" source our own moving commands
+exec ":source " . g:dotvim . "moving.vim"
+"}}}
+
+" expand %% to full active file path. nice with ':edit'
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+" HINT: for training the homerow skills: activate hard mode by default:
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode() " in moving.vim
+
+" Map hotkeys {{{
+set pastetoggle=<F12>
+nnoremap <silent> <F5> :bnext<CR>
+nnoremap <silent> <S-F5> :bprev<CR>
+nnoremap <silent> <F6> :cnext<CR>
+nnoremap <silent> <S-F6> :cprev<CR>
+nnoremap <F2> :w!<CR> " save
+inoremap <F2> <C-c>:w!<CR> " save
+nnoremap <F4> :cclose<CR>  " close quickfix window
+nnoremap <leader>pt :setl noai nocin nosi inde=<CR> " plain text
+nnoremap <leader>th :call ToggleHardMode()<CR>      " toggle hard
+nnoremap <leader>tn :set number!<CR>                " toggle numbers
+" }}}
+" activate or (re)set all the cool VIM builtin stuff {{{
+set printoptions=paper:a4,duplex:off
+syntax on
+filetype plugin on
+filetype indent on
+set nocompatible
+set modeline
+set number
+set nrformats= 		" no octal, just decimal CTRL-X/A
+set showcmd
+set showmatch
+set hlsearch
+set incsearch
+set background=dark	" works without theme!
+set visualbell
+set viminfo=            " do not leave trails and search patterns
+set termencoding=utf-8  " seems as if everywhere is (now) UTF with the keys
+set fileencodings=ucs-bom,utf-8,latin1 " heuristics precedence
+set fileencoding&       " default: auto-sensing charset of current buffer
+set encoding&           " default: terminal charset follows current locale
+" }}}
+" tune omnicompletion {{{
+set completeopt+=longest,menuone
+set omnifunc=syntaxcomplete#Complete
+
+" CAVEAT: Overriding <Esc> to >C-e> causes "A" line inserts on movements
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+" }}}
+" Customize GVIM {{{
+if has('gui_running')
+	colorscheme desert " or: ir_black
+	set guifont=Monospace\ 11
+	set columns=88 " with number
+	set lines=55
+	set guioptions-=T " remove toolbar
+	" set guioptions-=m " remove menu bar
+	nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
+else
+	colorscheme desert
+endif " }}}
+function! ME_IntelliTab() " smart TAB completion binding {{{
+	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+		return "\<Tab>"
+	else
+		return "\<C-N>"
+	endif
+endfunction
+" too problematic as global: inoremap <Tab> <C-R>=ME_IntelliTab()<CR>
+" }}}
+inoremap <C-Tab> <C-X><C-O><C-p><C-n>
+function! s:Customize() " {{{
+	" load all available local*.vim files here
+	" you can easily apply non standard formatting rules this way
+	for l:file in split(glob("local*.vim"),"\n")
+		if filereadable(l:file)
+			exec ":source " . l:file
+		endif
+	endfor
+endfunction
+call s:Customize()
+"}}}
+
+nnoremap <leader>ttl :TlistToggle<CR> " ich kann es mir sonst nicht merken
+
+" vim: fdm=marker : ts=2 :
+

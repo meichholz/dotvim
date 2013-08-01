@@ -1,0 +1,158 @@
+set foldmethod=marker
+let maplocalleader=g:My_Leader
+let g:L_ProjectDirectory=getcwd()
+let g:L_unit_test_dir = "tests/unit"
+let g:L_mock_dir = "tests/unit"
+let g:L_source_dir = "src"
+let g:L_func_test_dir = "tests/functional"
+
+function! s:ModuleName(...) " {{{ strip everything, including extension, from the file name
+	let l:name = exists('a:1') ? a:1 : expand('%:t')
+  return substitute( substitute(l:name, '^test_', '', 'g'),
+				\"\\.[a-z]\\+","","g")
+endfunction
+"}}}
+function! s:ModuleType(...) "{{{
+	let l:name = exists('a:1') ? a:1 : expand('%:t')
+  return substitute(l:name, "^.\\+\\.", "", "g") 
+endfunction
+"}}}
+function! s:EchoWarning(...) "{{{
+	echohl WarningMsg
+	execute "echomsg '".join(a:000,"")."'"
+	echohl None
+endfunction
+"}}}
+function! L_CycleRelated() "{{{
+	cclose
+	" fqname is with short path
+	let l:fqname=expand('%')
+	let l:ext=expand('%:e')
+	let l:dir=expand("%:h")
+	let l:basename=s:ModuleName()
+	" mocks to cmock.h to Makefile.am to llcheck.h
+	if l:ext == "c" && l:fqname=~"/mock*"
+    let l:relatedname = l:dir."/cmock.h"
+	elseif expand('%:t')=='cmock.h'
+		let l:relatedname = l:dir.'/Makefile.am'
+	elseif l:basename=="Makefile" && l:dir==g:L_unit_test_dir 
+		let l:relatedname = g:L_unit_test_dir."/llcheck.h"
+	" FIXME: cycle through file list (mock_*, llcheck_*)
+	" from header to code (generic)
+	elseif l:ext=="h"
+		let l:relatedname=substitute(l:fqname,"\\.h$",".c","g")
+	" from code to test 
+	elseif l:ext=="c" && l:dir==g:L_source_dir
+		let l:relatedname = g:L_unit_test_dir."/test_".l:basename.".c"
+	" from test to code
+	elseif l:ext=="c"
+    let l:relatedname = g:L_source_dir."/".l:basename.".c"
+	else
+		call s:EchoWarning("no relation file for ",l:fqname)
+		return
+	endif
+	if filereadable(l:relatedname)
+		echomsg "switching to" l:relatedname
+		exe "next ".l:relatedname
+	else
+		call s:EchoWarning("file does not exist: ", l:relatedname)
+	endif
+endfunction
+" }}}
+function! L_Rake(mode) "{{{
+  wall
+	set makeprg=rake
+	execute "make! ".a:mode
+	copen
+endfunction
+" }}}
+function! s:EditJumpToFirstInList(type, searchcore, candidates) "{{{
+	if empty(a:candidates)
+		call s:EchoWarning("no ", a:type, " file for ", a:searchcore)
+		return
+	endif
+	echo a:type.' for <'.a:searchcore.'> finds: '.a:candidates
+	let l:filelist = split(a:candidates," ")
+	let l:newfile = l:filelist[0]
+	exec "next ".l:newfile
+endfunction
+"}}}
+function! L_EditUnittest(...) "{{{
+	let l:search_name = exists('a:1') ? a:1 : s:ModuleName()
+	let l:files = globpath(g:L_unit_test_dir, 'test_'.l:search_name.'*.c')
+	call s:EditJumpToFirstInList("unit test",l:search_name,l:files)
+endfunction	
+"}}}
+function! L_EditMock(...) "{{{
+	let l:search_name = exists('a:1') ? a:1 : s:ModuleName()
+	let l:files = globpath(g:L_mock_dir, 'mock_'.l:search_name.'*.c')
+	call s:EditJumpToFirstInList("mock module",l:search_name,l:files)
+endfunction	
+"}}}
+function! L_EditFunctionaltest(...) "{{{
+	let l:search_name = exists('a:1') ? a:1 : s:ModuleName()
+	let l:files = globpath(g:L_func_test_dir, l:search_name.'*')
+	call s:EditJumpToFirstInList("functional test",l:search_name,l:files)
+endfunction	
+"}}}
+function! L_EditCmodule(...) "{{{
+	let l:search_name = exists('a:1') ? a:1 : s:ModuleName()
+	let l:files = globpath(g:L_source_dir, l:search_name.'*.c')
+	call s:EditJumpToFirstInList("module",l:search_name,l:files)
+endfunction	
+"}}}
+function! L_EditCheader(...) "{{{
+	let l:search_name = exists('a:1') ? a:1 : s:ModuleName()
+	let l:files = globpath(g:L_source_dir, l:search_name.'*.h')
+	call s:EditJumpToFirstInList("header",l:search_name,l:files)
+endfunction
+"}}}
+function! L_EditMakefile(...) "{{{
+	let l:subdir = expand("%:h")
+	let l:variants = [ "Makefile.am", "Makefile.in", "Makefile" ]
+	let l:target = ''
+	for i in l:variants
+		if filereadable(l:subdir."/".i)
+			let l:target = l:subdir."/".i
+			break
+		endif
+	endfor
+	if empty(l:target)
+		call s:EditWarning("no suitable Makefile found")
+		return
+	endif
+	execute "next ".l:target
+endfunction	
+"}}}
+
+function! L_Test()
+	echo s:ModuleName()
+	echo s:ModuleName("test_schnippie.exo")
+	echo s:ModuleType("test_schnippie.exo")
+endfunction
+
+" bindings
+command! R call L_CycleRelated()
+command! -nargs=0 Emakefile call L_EditMakefile()
+command! -nargs=? Eunittest call L_EditUnittest(<f-args>)
+command! -nargs=? Emock call L_EditMock(<f-args>)
+command! -nargs=? Ecmodule call L_EditCmodule(<f-args>)
+command! -nargs=? Eheader call L_EditCheader(<f-args>)
+command! -nargs=? Efunctional call L_EditFunctionaltest(<f-args>)
+
+nmap <F7> :R<CR>
+imap <F7> <C-C>:R<CR>
+
+" see: http://learnvimscriptthehardway.stevelosh.com/
+command! Lcheck call L_Rake('check')
+command! Lcleancheck call L_Rake('cleancheck')
+nmap <F10> :Lcheck<CR><CR>
+nmap <S-F10> :Lcleancheck<CR><CR>
+nnoremap <localleader>lrc :Lcheck<CR><CR>
+nnoremap <localleader>lrcc :Lcleancheck<CR><CR>
+" some debug convenience
+nmap <localleader>lt :call L_Test()<CR>
+nmap <localleader>lrv :w!<CR>:source local_checklib_project.vim<CR>
+
+" vim: fdm=marker ts=2 sw=2
+
