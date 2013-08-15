@@ -41,8 +41,8 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Map hotkeys {{{
 set pastetoggle=<F12>
-nnoremap <silent> <F5> :bnext<CR>
-nnoremap <silent> <S-F5> :bprev<CR>
+nnoremap <silent> <F5> :cclose<CR>:bnext<CR>
+nnoremap <silent> <S-F5> :cclose<CR>:bprev<CR>
 nnoremap <silent> <F6> :cnext<CR>
 nnoremap <silent> <S-F6> :cprev<CR>
 nnoremap <F2> :w!<CR> " save
