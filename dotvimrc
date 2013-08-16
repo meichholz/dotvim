@@ -106,7 +106,24 @@ endfunction
 " too problematic as global: inoremap <Tab> <C-R>=ME_IntelliTab()<CR>
 " }}}
 inoremap <C-Tab> <C-X><C-O><C-p><C-n>
-function! s:Customize() " {{{
+function! s:FixRubyPath() "{{{
+	" override broken path setting by ftplugin
+	" see: http://stackoverflow.com/questions/8755607/vim-option-value-contains-error-message-when-editing-ruby-files-gem-all-load-pa
+	if !exists("g:ruby_path")
+		if executable("ruby") " only unix
+			let l:code = "print ($: + begin; require %q{rubygems}; Gem::Specification.map(&:lib_dirs_glob).sort.uniq;  rescue LoadError; []; end).join(%q{,})" 
+			let g:ruby_path = system("ruby -e '" . l:code . "'")
+		else
+			let g:ruby_path = getcwd."**"
+		endif
+	endif
+endfunction
+call s:FixRubyPath() " first fix the ruby path THEN call customizations
+"}}}
+
+nnoremap <leader>ttl :TlistToggle<CR> " ich kann es mir sonst nicht merken
+
+function! s:sourceLocalVims() " {{{
 	" load all available local*.vim files here
 	" you can easily apply non standard formatting rules this way
 	for l:file in split(glob("local*.vim"),"\n")
@@ -115,10 +132,8 @@ function! s:Customize() " {{{
 		endif
 	endfor
 endfunction
-call s:Customize()
+call s:sourceLocalVims()
 "}}}
-
-nnoremap <leader>ttl :TlistToggle<CR> " ich kann es mir sonst nicht merken
 
 " vim: fdm=marker : ts=2 :
 
