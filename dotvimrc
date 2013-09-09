@@ -1,5 +1,5 @@
 " this is marian eichholz hand tuned vim initialization.
-" maintainer note: cp -a ~/.vim/*  ~/pm-git/config/puppet/modules/editors/files/dotvim/
+" maintainer note: sh projects/sync-lib.sh
 
 " plugin list {{{
 " ---------------
