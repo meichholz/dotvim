@@ -3,11 +3,12 @@
 
 " plugin list {{{
 " ---------------
+" pathogen
 " c (aka c-support)
 " cscope_maps (manual, needs cscope-feature of gvim)
 " taglist (:TlistToggle)
 " hardmode (:call hardmode())
-" rails
+" vim-rails, vim-rake
 " snippets-emu
 "
 " self built
@@ -22,9 +23,13 @@ if !exists("g:dotvim")
 	let g:dotvim = $HOME . "/.vim/" " just THE default value(s)
 endif
 
+execute pathogen#infect()
+
 " setup help system and include local tags
 set tags+=./tags;/ " recursively up
 exec ":helptags " . g:dotvim . "doc"
+" include pathogenized help directories
+exec ":Helptags"
 
 let g:My_Leader = ","
 let mapleader = g:My_Leader
