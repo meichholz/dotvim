@@ -1,1 +1,4 @@
-" git clone git://github.com/tpope/vim-____.git
+" Nicht gut mangels expliziten Submoduls: git clone git://github.com/tpope/vim-____.git
+" cd projects/dotvim ; PLUGIN=syntastic
+" git submodule add https://github.com/tpope/$PLUGIN.git bundle/$PLUGIN
+
