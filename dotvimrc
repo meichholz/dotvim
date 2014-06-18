@@ -9,7 +9,6 @@
 " taglist (:TlistToggle)
 " hardmode (:call hardmode())
 " vim-rails, vim-rake
-" snippets-emu
 "
 " self built
 " ----------
@@ -53,6 +52,7 @@ nnoremap <silent> <S-F6> :cprev<CR>
 nnoremap <F2> :w!<CR> " save
 inoremap <F2> <C-c>:w!<CR> " save
 nnoremap <F4> :cclose<CR>  " close quickfix window
+nnoremap <leader>nt :NERDTreeToggle<CR> " Toggle the file browser
 nnoremap <leader>pt :setl noai nocin nosi inde=<CR> " plain text
 nnoremap <leader>th :call ToggleHardMode()<CR>      " toggle hard
 nnoremap <leader>tn :set number!<CR>                " toggle numbers
