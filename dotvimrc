@@ -32,6 +32,7 @@ exec ":Helptags"
 
 let g:My_Leader = ","
 let mapleader = g:My_Leader
+let g:NERDTreeDirArrows = 0
 
 " source our own moving commands
 exec ":source " . g:dotvim . "moving.vim"
