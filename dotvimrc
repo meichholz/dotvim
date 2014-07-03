@@ -53,10 +53,14 @@ nnoremap <silent> <S-F6> :cprev<CR>
 nnoremap <F2> :w!<CR> " save
 inoremap <F2> <C-c>:w!<CR> " save
 nnoremap <F4> :cclose<CR>  " close quickfix window
-nnoremap <leader>nt :NERDTreeToggle<CR> " Toggle the file browser
+" }}}
+" Map standard commands {{{
 nnoremap <leader>pt :setl noai nocin nosi inde=<CR> " plain text
+nnoremap <leader>ttn :NERDTreeToggle<CR> " Toggle the file browser
+nnoremap <leader>ttl :TlistToggle<CR> " ich kann es mir sonst nicht merken
 nnoremap <leader>th :call ToggleHardMode()<CR>      " toggle hard
 nnoremap <leader>tn :set number!<CR>                " toggle numbers
+nnoremap <leader>slv :call CVsourceLocalVim()<CR>
 " }}}
 " activate or (re)set all the cool VIM builtin stuff {{{
 set printoptions=paper:a4,duplex:off
@@ -127,9 +131,7 @@ endfunction
 call s:FixRubyPath() " first fix the ruby path THEN call customizations
 "}}}
 
-nnoremap <leader>ttl :TlistToggle<CR> " ich kann es mir sonst nicht merken
-
-function! s:sourceLocalVims() " {{{
+function! CVsourceLocalVim() " {{{
 	" load all available local*.vim files here
 	" you can easily apply non standard formatting rules this way
 	for l:file in split(glob("local*.vim"),"\n")
@@ -138,7 +140,7 @@ function! s:sourceLocalVims() " {{{
 		endif
 	endfor
 endfunction
-call s:sourceLocalVims()
+call CVsourceLocalVim()
 "}}}
 
 " vim: fdm=marker : ts=2 :
