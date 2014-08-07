@@ -34,3 +34,6 @@
 	path = bundle/vim-puppet
 	url = https://github.com/rodjek/vim-puppet
 
+[submodule "bundle/vim-c"]
+	path = bundle/vim-c
+	url = https://github.com/WolfgangMehner/c.vim
