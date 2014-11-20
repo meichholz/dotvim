@@ -14,6 +14,50 @@ This Structure is meant to be symlinked to the actual environment.
 
 You may perform a similar stunt on a Windows machine, but I do not have the bit at hand right now. The prefix sign is an Underscore (`_vimrc`).
 
+## Submodules
+
+Most third party plugins are expected to be imported by pathogen and vundle.
+See `plugin/README.where` for a generic snippet to get the modules.
+
+See here for my `.gitmodules`, looks a bit inconsistent, uhh...
+```
+[submodule "vim-rails"]
+	path = bundle/vim-rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule "vim-dispatch"]
+	path = bundle/vim-dispatch
+	url = git://github.com/tpope/vim-dispatch.git
+[submodule "vim-rake"]
+	path = bundle/vim-rake
+	url = git://github.com/tpope/vim-rake.git
+[submodule "vim-projectionist"]
+	path = bundle/vim-projectionist
+	url = git://github.com/tpope/vim-projectionist.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "bundle/delimitmate"]
+	path = bundle/delimitmate
+	url = https://github.com/Raimondi/delimitMate
+[submodule "bundle/ultisnips"]
+	path = bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips
+[submodule "bundle/vim-snippets"]
+	path = bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets.git
+[submodule "bundle/tabular"]
+	path = bundle/tabular
+	url = https://github.com/godlygeek/tabular
+[submodule "bundle/vim-puppet"]
+	path = bundle/vim-puppet
+	url = https://github.com/rodjek/vim-puppet
+[submodule "bundle/vim-c"]
+	path = bundle/vim-c
+	url = https://github.com/WolfgangMehner/c.vim
+```
 ## License
 
 (The MIT License)

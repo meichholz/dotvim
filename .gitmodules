@@ -10,8 +10,6 @@
 [submodule "vim-projectionist"]
 	path = bundle/vim-projectionist
 	url = git://github.com/tpope/vim-projectionist.git
-
-
 [submodule "bundle/syntastic"]
 	path = bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
@@ -33,7 +31,6 @@
 [submodule "bundle/vim-puppet"]
 	path = bundle/vim-puppet
 	url = https://github.com/rodjek/vim-puppet
-
 [submodule "bundle/vim-c"]
 	path = bundle/vim-c
 	url = https://github.com/WolfgangMehner/c.vim
