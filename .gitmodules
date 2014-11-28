@@ -34,3 +34,6 @@
 [submodule "bundle/vim-c"]
 	path = bundle/vim-c
 	url = https://github.com/WolfgangMehner/c.vim
+[submodule "bundle/vim-colors-solarized"]
+	path = bundle/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized

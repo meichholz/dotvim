@@ -97,7 +97,8 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 " }}}
 " Customize UI {{{
 if has('gui_running')
-	colorscheme desert " or: ir_black
+  set background=light
+	colorscheme solarized " or: ir_black
 	if has('gui_macvim')
 					set guifont=Monaco:h13 " Menlo\ Regular:h14
 	else
@@ -108,7 +109,8 @@ if has('gui_running')
 	set columns=88 " with number
 	set lines=55
 	nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
-else
+else " no GUI
+	set background=light
 	colorscheme desert
 endif " }}}
 function! ME_IntelliTab() " smart TAB completion binding {{{
