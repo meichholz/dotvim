@@ -113,8 +113,9 @@ if has('gui_running')
 	set lines=55
 	nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
 else " no GUI
-	let g:solarized_termtrans=1
-	" set background=light
+				" let g:solarized_termtrans=1
+  set t_Co=16
+	set background=light
 	colorscheme solarized
 endif " }}}
 function! ME_IntelliTab() " smart TAB completion binding {{{
