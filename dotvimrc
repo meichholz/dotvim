@@ -100,23 +100,24 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 " }}}
 " Customize UI {{{
 if has('gui_running')
-  set background=light
-	colorscheme solarized " or: ir_black
-	if has('gui_macvim')
-					set guifont=Monaco:h13 " Menlo\ Regular:h14
-	else
-					set guifont=Monospace\ 11
-					set guioptions-=T " remove toolbar
-					" set guioptions-=m " remove menu bar
-	end
-	set columns=88 " with number
-	set lines=55
-	nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
+				set background=light
+				colorscheme solarized " or: ir_black
+				if has('gui_macvim')
+								set guifont=Monaco:h13 " Menlo\ Regular:h14
+				else
+								set guifont=Monospace\ 11
+								set guioptions-=T " remove toolbar
+								" set guioptions-=m " remove menu bar
+				end
+				set columns=88 " with number
+				set lines=55
+				nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
 else " no GUI
-				" let g:solarized_termtrans=1
-  set t_Co=16
-	set background=light
-	colorscheme solarized
+				if &term == "xterm" || &term == "Putty"
+								set t_Co=16
+								set background=light
+								colorscheme solarized
+				end
 endif " }}}
 function! ME_IntelliTab() " smart TAB completion binding {{{
 	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
