@@ -38,8 +38,6 @@ let mapleader = g:My_Leader
 let g:NERDTreeDirArrows = 0
 " source our own moving commands
 exec ":source " . g:dotvim . "moving.vim"
-" airline tuneup
-set laststatus=2 " force it to appear
 "}}}
 
 " expand %% to full active file path. nice with ':edit'
@@ -109,17 +107,24 @@ if has('gui_running')
 								set guifont=Monospace\ 11
 								set guioptions-=T " remove toolbar
 								" set guioptions-=m " remove menu bar
+                let g:airline_powerline_fonts = 1
 				end
 				set columns=88 " with number
 				set lines=55
 				nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
 else " no GUI
 				if &term == "xterm" || &term == "Putty"
+								" unicode separators for arrows
+								let g:airline_left_sep = '▶'
+								let g:airline_right_sep = '◀'
 								set t_Co=16
 								set background=light
 								colorscheme solarized
 				end
-endif " }}}
+endif
+" airline tuneup
+set laststatus=2 " force it to appear
+" }}}
 function! ME_IntelliTab() " smart TAB completion binding {{{
 	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
 		return "\<Tab>"
