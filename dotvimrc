@@ -107,7 +107,7 @@ if has('gui_running')
 	if has('gui_macvim')
 		set guifont=Monaco:h13 " Menlo\ Regular:h14
 	else
-		set guifont=Monospace\ 11
+		set guifont=Liberation\ Mono\ for\ Powerline\ 11
 		set guioptions-=T " remove toolbar
 		" set guioptions-=m " remove menu bar
 		let g:airline_powerline_fonts = 1
