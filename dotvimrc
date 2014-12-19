@@ -98,6 +98,9 @@ inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDow
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 " }}}
 " Customize UI {{{
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
 if has('gui_running')
 				set background=light
 				colorscheme solarized " or: ir_black
@@ -115,8 +118,14 @@ if has('gui_running')
 else " no GUI
 				if &term == "xterm" || &term == "Putty"
 								" unicode separators for arrows
+								let g:airline_left_alt_sep = '»'
 								let g:airline_left_sep = '▶'
+								let g:airline_right_alt_sep = '«'
 								let g:airline_right_sep = '◀'
+								let g:airline_symbols.linenr = '␤'
+								let g:airline_symbols.branch = '⎇'
+								let g:airline_symbols.paste = 'Þ'
+								let g:airline_symbols.whitespace = 'Ξ'
 								set t_Co=16
 								set background=light
 								colorscheme solarized
