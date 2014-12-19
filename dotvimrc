@@ -36,9 +36,10 @@ exec ":Helptags"
 let g:My_Leader = ","
 let mapleader = g:My_Leader
 let g:NERDTreeDirArrows = 0
-
 " source our own moving commands
 exec ":source " . g:dotvim . "moving.vim"
+" airline tuneup
+set laststatus=2 " force it to appear
 "}}}
 
 " expand %% to full active file path. nice with ':edit'
