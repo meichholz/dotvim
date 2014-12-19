@@ -116,7 +116,7 @@ if has('gui_running')
 				set lines=55
 				nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
 else " no GUI
-				if &term == "xterm" || &term == "Putty"
+				if &term =~ "^xterm.*" || &term == "Putty"
 								" unicode separators for arrows
 								let g:airline_left_alt_sep = '»'
 								let g:airline_left_sep = '▶'
