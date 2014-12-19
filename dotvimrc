@@ -102,16 +102,21 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 if has('gui_running')
-	set background=light
-	colorscheme solarized " or: ir_black
 	if has('gui_macvim')
 		set guifont=Monaco:h13 " Menlo\ Regular:h14
 	else
-		set guifont=Liberation\ Mono\ for\ Powerline\ 11
-		set guioptions-=T " remove toolbar
-		" set guioptions-=m " remove menu bar
+	  if has('win32')
+		  set encoding=utf-8
+		  set guifont=Liberation_Mono_for_Powerline:h11
+		else
+		  set guifont=Liberation\ Mono\ for\ Powerline\ 11
+		endif
 		let g:airline_powerline_fonts = 1
-	end
+  end
+	set guioptions-=T " remove toolbar
+	" set guioptions-=m " remove menu bar
+	set background=light
+	colorscheme solarized " or: ir_black
 	set columns=88 " with number
 	set lines=55
 	nnoremap ZZ :echo "ZZ disabled for GUI"<CR>
