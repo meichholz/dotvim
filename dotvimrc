@@ -106,11 +106,11 @@ if has('gui_running')
 		set guifont=Monaco:h13 " Menlo\ Regular:h14
 	else
 	  if has('win32')
-		  set encoding=utf-8
 		  set guifont=Liberation_Mono_for_Powerline:h11
 		else
 		  set guifont=Liberation\ Mono\ for\ Powerline\ 11
 		endif
+		set encoding=utf-8
 		let g:airline_powerline_fonts = 1
   end
 	set guioptions-=T " remove toolbar
