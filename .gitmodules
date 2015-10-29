@@ -46,3 +46,6 @@
 [submodule "bundle/powerline-fonts"]
 	path = bundle/powerline-fonts
 	url = https://github.com/Lokaltog/powerline-fonts
+[submodule "bundle/vim-autoformat"]
+	path = bundle/vim-autoformat
+	url = https://github.com/Chiel92/vim-autoformat.git
